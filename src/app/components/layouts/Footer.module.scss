@@ -1,0 +1,43 @@
+.footer {
+  width: 100%;
+  padding: 1.5rem;
+  color: white;
+  background-color: rgb(55, 55, 55);
+
+  * {
+    margin: 0;
+  }
+
+  p {
+    font-size: 0.75rem;
+    color: rgb(175, 175, 175);
+    margin-top: 1.5rem;
+    text-align: center;
+  }
+}
+
+.control {
+  margin: auto;
+  width: min(100%, 60rem);
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+
+  div {
+    font-size: 0.9rem;
+    color: rgb(200, 200, 200);
+    display: flex;
+    flex-direction: column;
+  }
+
+  div :first-child {
+    font-weight: bold;
+    font-size: 1rem;
+    color: white;
+    margin-bottom: 0.5rem;
+  }
+}
