@@ -1,10 +1,8 @@
-import type { NextConfig } from "next";
+import { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   sassOptions: {
-    api: "modern-compiler", // or "modern"
+    silenceDeprecations: ["legacy-js-api"],
   },
 };
-
 export default nextConfig;

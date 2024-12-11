@@ -44,7 +44,6 @@
 
       svg {
         display: block;
-        transform-origin: center center;
         transition: transform 0.25s ease-in-out;
       }
 
@@ -54,7 +53,7 @@
         background: #000;
 
         svg {
-          transform: translateX(calc(2.25rem - 10px)) scale(1.1);
+          transform: translateX(calc(2rem - 12.5px)) scale(1.1);
           fill: #fff;
         }
 

@@ -1,0 +1,64 @@
+interface PropsType {
+  isLoading: boolean;
+  submitHandler: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
+}
+
+import { FC } from "react";
+import classes from "./FindForm.module.scss";
+
+const FindForm: FC<PropsType> = ({ isLoading, submitHandler }) => {
+  return (
+    <form className={classes.form} onSubmit={submitHandler}>
+      <div className={classes.inputs}>
+        <label htmlFor="hakbun">학번</label>
+        <input type="text" placeholder="" id="hakbun" />
+        {/* <label htmlFor="name">이름</label>
+    <input type="text" placeholder="" id="name" /> */}
+      </div>
+      <div className={classes.submit}>
+        <button className={isLoading ? classes.loading : ""}>
+          {isLoading ? (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 512 512"
+              width="24"
+              height="24"
+            >
+              <circle
+                cx="256"
+                cy="256"
+                r="192"
+                fill="none"
+                stroke="white"
+                strokeWidth="48"
+                strokeDasharray="301.59 301.59"
+                strokeLinecap="round"
+              >
+                <animateTransform
+                  attributeName="transform"
+                  type="rotate"
+                  from="0 256 256"
+                  to="360 256 256"
+                  dur="1s"
+                  repeatCount="indefinite"
+                />
+              </circle>
+            </svg>
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="24"
+              width="24"
+              viewBox="0 0 512 512"
+            >
+              <path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
+            </svg>
+          )}
+          <span>찾기</span>
+        </button>
+      </div>
+    </form>
+  );
+};
+
+export default FindForm;
