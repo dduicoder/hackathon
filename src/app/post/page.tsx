@@ -12,7 +12,7 @@ export default function Home() {
 
   return (
     <main>
-      <h1>택배 올리기</h1>
+      <h1>택배 등록</h1>
       <form className={classes.form} onSubmit={submitHandler}>
         <div className={classes.inputs}>
           <label htmlFor="hakbun">학번</label>

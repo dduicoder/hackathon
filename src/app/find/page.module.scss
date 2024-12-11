@@ -69,3 +69,23 @@
     }
   }
 }
+
+.list {
+  h3 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+  }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    li {
+      border-bottom: 1px solid rgba($color: #000000, $alpha: 0.1);
+      padding: 0.5rem 0;
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+}

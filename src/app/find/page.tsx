@@ -4,6 +4,11 @@ import { useState } from "react";
 import classes from "./page.module.scss";
 
 export default function Home() {
+  const list = [
+    { date: "2024.12.11", name: "물", status: "asdf" },
+    { date: "2024.12.12", name: "라면", status: "asdf" },
+  ];
+
   const [isFinding, setIsFinding] = useState<boolean>(false);
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -63,6 +68,19 @@ export default function Home() {
           </button>
         </div>
       </form>
+      {list.length !== 0 && (
+        <section className={classes.list}>
+          <h3>1508 박시진님의 택배 리스트</h3>
+          <ul className={classes.list}>
+            {list.map((item, i) => (
+              <li key={i}>
+                <span>{item["date"]}</span>
+                <span>{item["name"]}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
     </main>
   );
 }

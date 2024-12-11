@@ -27,7 +27,10 @@ const Header: FC = () => {
           <a className={getAnchorClassName("find")}>택배 찾기</a>
         </Link>
         <Link legacyBehavior href="/post">
-          <a className={getAnchorClassName("post")}>택배 올리기</a>
+          <a className={getAnchorClassName("post")}>택배 등록</a>
+        </Link>
+        <Link legacyBehavior href="/ranking">
+          <a className={getAnchorClassName("ranking")}>랭킹</a>
         </Link>
         <Link legacyBehavior href="/moniter">
           <a className={getAnchorClassName("moniter")}>모니터링</a>
