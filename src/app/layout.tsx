@@ -3,7 +3,7 @@ import "./globals.scss";
 
 import Header from "./components/layouts/Header";
 import Footer from "./components/layouts/Footer";
-import Head from "next/head";
+// import Head from "next/head";
 import { IBM_Plex_Sans_KR } from "next/font/google";
 
 const notoSansKr = IBM_Plex_Sans_KR({

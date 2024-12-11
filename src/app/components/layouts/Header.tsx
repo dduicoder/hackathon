@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 import classes from "./Header.module.scss";
-import Image from "next/image";
+// import Image from "next/image";
 
 const Header: FC = () => {
   const pathname = usePathname();
