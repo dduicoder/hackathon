@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-const json: JSON = require("../../components/find/data.json");
+import json from "../../components/find/data.json";
 
 const FIREBASE_DOMAIN =
   "https://gbs-hackathon-default-rtdb.asia-southeast1.firebasedatabase.app/";
@@ -16,10 +16,10 @@ export async function POST(request: Request) {
   const name = reqData["name"] as string;
 
   const numbers: string[] = Object.entries(json)
-    .filter(([key, value]) => value === name) // targetValue와 일치하는 값만 필터링
+    .filter(([, value]) => value === name)
     .map(([key]) => key);
 
-  let inboxes: InboxItem[] = [];
+  const inboxes: InboxItem[] = [];
 
   for (const number of numbers) {
     const response = await fetch(`${FIREBASE_DOMAIN}/users/${number}.json`);
