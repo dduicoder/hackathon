@@ -1,7 +1,73 @@
+.form {
+  label {
+    font-size: 1rem;
+  }
+
+  input {
+    margin: 1rem 0;
+  }
+
+  .submit {
+    display: flex;
+    justify-content: flex-end;
+
+    button {
+      font-family: inherit;
+      font-size: 1rem;
+      background: #212121;
+      color: white;
+      fill: rgb(155, 153, 153);
+      padding: 0.6rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.3rem;
+      border-radius: 1rem;
+      font-weight: bold;
+      transition: all 0.25s ease-in-out;
+
+      svg {
+        display: block;
+        transition: all 0.25s ease-in-out;
+      }
+
+      span {
+        display: block;
+        transition: all 0.25s ease-in-out;
+      }
+
+      &:hover,
+      &.loading {
+        box-shadow: 0 0 1rem rgba($color: #000000, $alpha: 0.1);
+        background: #000;
+
+        svg {
+          transform: translateX(calc(2rem - 12.5px)) scale(1.1);
+          fill: #fff;
+        }
+
+        span {
+          opacity: 0;
+          transition: 0.5s linear;
+        }
+      }
+
+      &:active {
+        transform: scale(0.9);
+      }
+    }
+  }
+}
+
 .list {
   h3 {
     margin-top: 0;
     margin-bottom: 0.5rem;
+  }
+
+  .loading {
+    margin-top: 1rem;
+    text-align: center;
   }
 
   ul {
@@ -14,6 +80,11 @@
       padding: 0.5rem 0;
       display: flex;
       justify-content: space-between;
+
+      div {
+        display: flex;
+        gap: 1rem;
+      }
     }
   }
 }

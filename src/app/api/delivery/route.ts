@@ -1,5 +1,10 @@
 import { NextResponse } from "next/server";
 
+const json: JSON = require("../../components/find/data.json");
+
+const FIREBASE_DOMAIN =
+  "https://gbs-hackathon-default-rtdb.asia-southeast1.firebasedatabase.app/";
+
 export async function GET() {
   return NextResponse.json({
     hello: "wordl",
@@ -7,13 +12,35 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  const data = await request.json();
-  console.log(data["number"]);
+  const reqData = await request.json();
+  const name = reqData["name"] as string;
 
-  // method
+  const numbers: string[] = Object.entries(json)
+    .filter(([key, value]) => value === name) // targetValue와 일치하는 값만 필터링
+    .map(([key]) => key);
 
-  return NextResponse.json([
-    { id: "890-087", name: "물", date: "2024.11.12", status: "good" },
-    { id: "890-0837", name: "라면", date: "2024.12.11", status: "good" },
-  ]);
+  let inboxes: InboxItem[] = [];
+
+  for (const number of numbers) {
+    const response = await fetch(`${FIREBASE_DOMAIN}/users/${number}.json`);
+    const resData = await response.json();
+
+    if (!response.ok) {
+      throw new Error(resData.message || "Could not fetch.");
+    }
+
+    try {
+      if (resData) {
+        const inboxList: InboxItem[] = Object.values(resData);
+
+        inboxes.push(...inboxList);
+      } else {
+        return NextResponse.json([]);
+      }
+    } catch (error) {
+      return NextResponse.json({ error: error });
+    }
+  }
+
+  return NextResponse.json(inboxes);
 }

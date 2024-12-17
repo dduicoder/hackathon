@@ -1,10 +1,14 @@
 export {};
 
 declare global {
-  type DeliveryType = {
-    id: string;
-    name: string;
+  interface InboxItem {
     date: string;
-    status: string;
-  };
+    name: string;
+    inv_num: string;
+  }
+
+  interface UserData {
+    rank: number;
+    inbox: InboxItem[];
+  }
 }
