@@ -1,11 +1,9 @@
 import { NextResponse } from "next/server";
 
-export async function POST(request: Request) {
-  const reqData = await request.json();
-  const barcode = reqData["barcode"];
-
+export async function GET() {
+  console.log("HUI");
   const response = await fetch(
-    `https://hackertonapiserver.vercel.app/upload?invoice=${barcode}`
+    `https://hackertonapiserver.vercel.app/query_logs`
   );
 
   const resData = await response.json();

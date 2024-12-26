@@ -2,10 +2,10 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   const reqData = await request.json();
-  const barcode = reqData["barcode"];
+  const text = reqData["text"];
 
   const response = await fetch(
-    `https://hackertonapiserver.vercel.app/upload?invoice=${barcode}`
+    `https://hackertonapiserver.vercel.app/logs?text=${text}`
   );
 
   const resData = await response.json();
@@ -13,8 +13,6 @@ export async function POST(request: Request) {
   if (!response.ok) {
     throw new Error(resData.message || "Could not fetch.");
   }
-
-  console.log(resData);
 
   return NextResponse.json(resData);
 }

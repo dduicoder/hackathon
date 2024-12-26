@@ -3,23 +3,28 @@
 import { SyntheticEvent, useState } from "react";
 import classes from "./page.module.scss";
 
-const getDaysElapsed = (inputDate: string): number => {
-  const [year, month, day] = inputDate.split(":").map(Number);
-
-  if (!year || !month || !day) {
-    throw new Error("Invalid date format. Expected format: yyyy:mm:dd");
+function getDaysElapsed(inputDate: string): number {
+  const dateRegex = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/;
+  if (!dateRegex.test(inputDate)) {
+    throw new Error(
+      "Invalid date format. Expected format: yyyy-mm-dd hh:mm:ss"
+    );
   }
 
-  const date = new Date(year, month - 1, day);
+  const [datePart, timePart] = inputDate.split(" ");
+  const [year, month, day] = datePart.split("-").map(Number);
+  const [hours, minutes, seconds] = timePart.split(":").map(Number);
+
+  const inputDateTime = new Date(year, month - 1, day, hours, minutes, seconds);
 
   const now = new Date();
 
-  const diffInMillis = now.getTime() - date.getTime();
+  const diffInMillis = now.getTime() - inputDateTime.getTime();
 
   const daysElapsed = Math.floor(diffInMillis / (1000 * 60 * 60 * 24));
 
   return daysElapsed;
-};
+}
 
 const getDeliveryDanger = (daysElapsed: number): string => {
   if (daysElapsed < 3) {
@@ -172,7 +177,7 @@ const FindPage = () => {
           )}
         </section>
       )}
-      <p>7일 이후 택배는 자동으로 폐기됩니다.</p>
+      <p className={classes.notify}>7일이 지난 택배는 자동으로 폐기됩니다.</p>
     </main>
   );
 };

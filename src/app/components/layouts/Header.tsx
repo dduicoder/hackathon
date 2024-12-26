@@ -10,6 +10,7 @@ import classes from "./Header.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInbox } from "@fortawesome/free-solid-svg-icons";
 // import Image from "next/image";
+// import Image from "next/image";
 
 const Header: FC = () => {
   const pathname = usePathname();
@@ -32,11 +33,8 @@ const Header: FC = () => {
         <Link legacyBehavior href="/post">
           <a className={getAnchorClassName("post")}>택배 등록</a>
         </Link>
-        <Link legacyBehavior href="/ranking">
-          <a className={getAnchorClassName("ranking")}>랭킹</a>
-        </Link>
-        <Link legacyBehavior href="/moniter">
-          <a className={getAnchorClassName("moniter")}>모니터링</a>
+        <Link legacyBehavior href="/logs">
+          <a className={getAnchorClassName("logs")}>택배 현황</a>
         </Link>
       </nav>
     </header>

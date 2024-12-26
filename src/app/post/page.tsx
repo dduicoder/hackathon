@@ -68,7 +68,7 @@ export default function Home() {
               //No barcode with exactly 12 letters found.
               notification({
                 type: "ERROR",
-                message: "12글자 바코드가 없어요",
+                message: `12글자 바코드가 없어요. 찾은 바코드: ${allBarcodes.toString()}`,
               });
             }
           };
@@ -88,7 +88,7 @@ export default function Home() {
     if (!selectedBarcode) {
       notification({
         type: "ERROR",
-        message: "No barcode data to send. Please scan a barcode first!",
+        message: "바코드를 입력해주세요",
       });
       return;
     }
@@ -103,7 +103,7 @@ export default function Home() {
       if (response.ok) {
         notification({
           type: "SUCCESS",
-          message: "택배가 성공적으로 등록했어요",
+          message: "택배가 성공적으로 등록됐어요",
         });
       } else {
         notification({
@@ -125,13 +125,18 @@ export default function Home() {
   return (
     <main>
       <h1>택배 등록</h1>
-      <h3>택배 사진을 영역 안에 넣고 등록 버튼을 눌러주세요</h3>
+      <h3>택배 사진을 영역 안에 넣고 바코드 읽기 버튼을 눌러주세요</h3>
       <Webcam
         className={classes.webcam}
         ref={webcamRef}
         screenshotFormat="image/jpeg"
       />
       <div className={classes.submit}>
+        <input
+          type="text"
+          value={selectedBarcode ? selectedBarcode : ""}
+          onChange={(e) => setSelectedBarcode(e.target.value)}
+        />
         <button onClick={captureAndProcessBarcodes}>바코드 읽기</button>
         <button
           className={isLoading ? classes.loading : ""}
@@ -177,17 +182,6 @@ export default function Home() {
           <span>등록</span>
         </button>
       </div>
-      {/* {barcodes.length > 0 && (
-        <>
-          <h3>찾은 바코드</h3>
-          <ul>
-            {barcodes.map((barcode, index) => (
-              <li key={index}>{barcode}</li>
-            ))}
-          </ul>
-        </>
-      )} */}
-      {selectedBarcode && <h3>선택된 바코드: {selectedBarcode}</h3>}
     </main>
   );
 }
