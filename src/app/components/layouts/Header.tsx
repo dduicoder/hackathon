@@ -3,10 +3,13 @@
 import { FC } from "react";
 // import { useRouter } from "next/router";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 
 import Link from "next/link";
 
 import classes from "./Header.module.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faInbox } from "@fortawesome/free-solid-svg-icons";
 // import Image from "next/image";
 
 const Header: FC = () => {
@@ -19,6 +22,7 @@ const Header: FC = () => {
   return (
     <header className={classes.header}>
       <Link href="/">
+        <FontAwesomeIcon icon={faInbox} />
         {/* <Image src="/logo.png" width="32" height="32" alt="" /> */}
         <span>북곽택배</span>
       </Link>

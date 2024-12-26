@@ -5,6 +5,7 @@ import Header from "./components/layouts/Header";
 import Footer from "./components/layouts/Footer";
 // import Head from "next/head";
 import { IBM_Plex_Sans_KR } from "next/font/google";
+import NotificationProvider from "./components/notification/NotificationProvider";
 
 const notoSansKr = IBM_Plex_Sans_KR({
   // weight: ["100", "200", "300", "400", "500", "600", "700"],
@@ -35,14 +36,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="kr">
+      <NotificationProvider>
+        <body className={notoSansKr.className}>
+          <div className="overlays"></div>
+          <Header />
+          {children}
+          <Footer />
+        </body>
+      </NotificationProvider>
       {/* <Head>
         <link rel="icon" href="/vercel.svg" />
       </Head> */}
-      <body className={notoSansKr.className}>
-        <Header />
-        {children}
-        <Footer />
-      </body>
     </html>
   );
 }

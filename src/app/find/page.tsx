@@ -3,11 +3,41 @@
 import { SyntheticEvent, useState } from "react";
 import classes from "./page.module.scss";
 
-export default function Home() {
+const getDaysElapsed = (inputDate: string): number => {
+  const [year, month, day] = inputDate.split(":").map(Number);
+
+  if (!year || !month || !day) {
+    throw new Error("Invalid date format. Expected format: yyyy:mm:dd");
+  }
+
+  const date = new Date(year, month - 1, day);
+
+  const now = new Date();
+
+  const diffInMillis = now.getTime() - date.getTime();
+
+  const daysElapsed = Math.floor(diffInMillis / (1000 * 60 * 60 * 24));
+
+  return daysElapsed;
+};
+
+const getDeliveryDanger = (daysElapsed: number): string => {
+  if (daysElapsed < 3) {
+    return "safe";
+  }
+
+  if (daysElapsed < 7) {
+    return "warning";
+  }
+
+  return "danger";
+};
+
+const FindPage = () => {
   const [isFirstTime, setIsFirstTime] = useState<boolean>(true);
   const [list, setList] = useState<Array<InboxItem>>([]);
   const [name, setName] = useState<string>("");
-
+  const [dotNumbers, setDotNumbers] = useState<number>(3);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const submitHandler = async (event: SyntheticEvent) => {
@@ -23,15 +53,21 @@ export default function Home() {
       datas.push(data[1] as string);
     }
 
-    const [deliveryName] = datas;
+    const deliveryName = datas[0].trim();
 
     setName(deliveryName);
 
-    setIsFirstTime(false);
+    if (isFirstTime) {
+      setIsFirstTime(false);
+    }
+
+    const intervalId = setInterval(() => {
+      setDotNumbers((prev) => (prev + 1) % 4);
+    }, 500);
+
+    setIsLoading(true);
 
     try {
-      setIsLoading(true);
-
       const response = await fetch("/api/delivery", {
         method: "POST",
         body: JSON.stringify({ name: deliveryName }),
@@ -45,6 +81,8 @@ export default function Home() {
     } catch (error) {
       console.log(error);
     } finally {
+      clearInterval(intervalId);
+      setDotNumbers(3);
       setIsLoading(false);
     }
   };
@@ -54,21 +92,16 @@ export default function Home() {
       <h1>택배 찾기</h1>
       <form className={classes.form} onSubmit={submitHandler}>
         <label htmlFor="delivery-name">이름</label>
-        <input
-          type="text"
-          // placeholder=""
-          id="delivery-name"
-          name="deliveryName"
-        />
+        <input type="text" id="delivery-name" name="deliveryName" />
         <div className={classes.submit}>
           <button className={isLoading ? classes.loading : ""}>
-            {isLoading ? (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 512 512"
-                width="24"
-                height="24"
-              >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 512 512"
+              width="24"
+              height="24"
+            >
+              {isLoading ? (
                 <circle
                   cx="256"
                   cy="256"
@@ -88,55 +121,60 @@ export default function Home() {
                     repeatCount="indefinite"
                   />
                 </circle>
-              </svg>
-            ) : (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="24"
-                width="24"
-                viewBox="0 0 512 512"
-              >
+              ) : (
                 <path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
-              </svg>
-            )}
+              )}
+            </svg>
             <span>찾기</span>
           </button>
         </div>
       </form>
-      {!isFirstTime &&
-        (list.length === 0 ? (
-          <section className={classes.list}>
-            <h3>{name}님의 택배 리스트가 비었어요</h3>
-          </section>
-        ) : (
-          <section className={classes.list}>
-            <h3>{name}님의 택배 리스트</h3>
-            {isLoading ? (
-              <div className={classes.loading}>
-                <span>로딩중..</span>
-              </div>
-            ) : (
-              <ul className={classes.list}>
-                <li>
-                  <span>날짜</span>
-                  <div>
-                    <span>품명</span>
-                    <span>송장번호</span>
-                  </div>
-                </li>
-                {list.map((item, i) => (
-                  <li key={i}>
-                    <span>{item.date}</span>
-                    <div>
-                      <span>{item.name}</span>
-                      <span>{item.inv_num}</span>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </section>
-        ))}
+      {!isFirstTime && (
+        <section className={classes.list}>
+          <h3>
+            {name}님의 택배 리스트
+            {!isLoading && list.length === 0 && "가 비었어요"}
+          </h3>
+          {isLoading ? (
+            <div className={classes.loading}>
+              <span>
+                {name}님의 택배 리스트를 찾는 중{".".repeat(dotNumbers)}
+              </span>
+            </div>
+          ) : (
+            list.length !== 0 && (
+              <table>
+                <thead>
+                  <tr>
+                    <th>송장번호</th>
+                    <th>품명</th>
+                    <th>지난 시간(일)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {list.map((item, i) => (
+                    <tr key={i}>
+                      <td>{item.invoice}</td>
+                      <td>{item.item}</td>
+                      {/* <td>{item.date}</td> */}
+                      <td
+                        className={
+                          classes[getDeliveryDanger(getDaysElapsed(item.date))]
+                        }
+                      >
+                        {getDaysElapsed(item.date)}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )
+          )}
+        </section>
+      )}
+      <p>7일 이후 택배는 자동으로 폐기됩니다.</p>
     </main>
   );
-}
+};
+
+export default FindPage;
