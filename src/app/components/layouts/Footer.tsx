@@ -1,7 +1,5 @@
 import { FC } from "react";
 
-import Link from "next/dist/client/link";
-
 import classes from "./Footer.module.scss";
 
 const Footer: FC = () => {

@@ -3,7 +3,6 @@
 import { FC } from "react";
 // import { useRouter } from "next/router";
 import { usePathname } from "next/navigation";
-import Image from "next/image";
 
 import Link from "next/link";
 

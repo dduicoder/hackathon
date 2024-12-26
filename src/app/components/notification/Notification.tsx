@@ -12,7 +12,7 @@ type PropsType = {
 const Notification: FC<PropsType> = ({ note, deleteNotification }) => {
   const [exit, setExit] = useState<boolean>(false);
   const [width, setWidth] = useState<number>(0);
-  const [intervalID, setIntervalID] = useState<any>();
+  const [intervalID, setIntervalID] = useState<NodeJS.Timeout>();
 
   const { id, type, message } = note;
 
